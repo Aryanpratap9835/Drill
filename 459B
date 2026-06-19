@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+signed main(){
+   int n;
+   cin>>n;
+   vector<int>ans(n);
+   for(auto &x:ans){
+       cin>>x;
+   }
+   int mx=LLONG_MAX;
+   int mn=LLONG_MIN;
+   for(int x:ans){
+       mx=min(mx,x);
+       mn=max(mn,x);
+   }
+   if(mx==mn){
+       cout<<0<<" "<<n*(n-1)/2<<"\n";
+   }else{
+       int cnt1=0;
+       int cnt2=0;
+       for(int x:ans){
+           if(mx==x)cnt1++;
+           if(mn==x)cnt2++;
+       }
+       cout<<mn-mx<<" "<<cnt1*cnt2<<"\n";
+   }
+}
