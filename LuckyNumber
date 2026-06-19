@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+int binpow(int x,int y){
+    if(y==0)return 1;
+    int temp=binpow(x,y/2);
+    temp=(temp*temp);
+    if(y%2!=0)temp=(temp*x);
+    return temp;
+}
+signed main(){
+    int n;
+    cin>>n;
+    int po=binpow(2,n+1);
+    cout<<po-2<<"\n";
+}
