@@ -1,0 +1,29 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+bool check(int n,int mid,int d,int k){
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        ans+=min(d,mid/i);
+        if(ans>=k)return true;
+    }return false;
+}
+signed main(){
+   
+        int n,d,k;
+        cin>>n>>d>>k;
+        int ans=0;
+        int li=0;int hi=n*d;
+        while(li<=hi){
+            int mid=li+(hi-li)/2;
+            if(!check(n,mid,d,k)){
+                 li=mid+1;
+            }else{
+                ans=mid;
+                hi=mid-1;
+               
+            }
+        }
+        cout<<ans<<"\n";
+    }
