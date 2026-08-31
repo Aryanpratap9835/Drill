@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+bool check(int mid,int s){
+    int sum=0;
+    int ch=mid;
+    while(mid!=0){
+        sum+=mid%10;
+        mid/=10;
+    }
+    sum=ch-sum;
+    return sum>=s;
+}
+signed main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,s;
+	    cin>>n>>s;
+         if(s==0){cout<<n<<"\n";
+         continue;}
+	    int li=0;int hi=n;
+	    int ans=-1;
+	    while(li<=hi){
+	        int mid=li+(hi-li)/2;
+	        if(check(mid,s)){
+	            hi=mid-1;
+	            ans=mid;
+	        }else{
+	            li=mid+1;
+	        }
+	}
+	 if(ans!=-1){
+	    cout<<n-ans+1<<"\n";
+	}
+   
+    else cout<<0<<"\n";
+
+}
+}
