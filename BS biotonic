@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int  findf(const vector<int>&ans,int li,int hi,int k){
+    while(li<=hi){
+        int mid=li+(hi-li)/2;
+        if(ans[mid]==k){
+          return mid;
+        }else if(ans[mid]>k)hi=mid-1;
+        else li=mid+1;
+    }return -1;
+}
+int findl(const vector<int>&ans,int li,int hi,int k){
+    while(li<=hi){
+        int mid=li+(hi-li)/2;
+        if(ans[mid]==k){
+            return mid;
+        }else if(ans[mid]<k)hi=mid-1;
+        else li=mid+1;
+    }return -1;
+}
+int main() {
+	// your code goes 
+	ios_base::sync_with_stdio(false);
+cin.tie(nullptr);
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,q;
+	    cin>>n>>q;
+	    vector<int>ans(n);
+	    for(int i=0;i<n;i++)cin>>ans[i];
+         int li=1;int hi=n-1;int peak=-1;
+	        while(li<=hi){
+	            int mid=li+(hi-li)/2;
+	            if(ans[mid]>ans[mid+1]&&ans[mid-1]<ans[mid]){
+	                peak=mid;
+	                break;
+	            }
+	            else if(ans[mid]<ans[mid+1]){
+	                li=mid+1;
+	            }else{
+	                hi=mid-1;
+	            }
+	        }
+	       
+	    while(q--){
+	        int k;
+	        cin>>k;
+	        
+	       
+	       int x= findf(ans,0,peak,k);
+	         int y=findl(ans,peak+1,n-1,k);
+	        if(x!=-1){
+	            cout<<x+1<<" ";
+	        }if(x!=y&&y!=-1){
+                cout<<y+1;
+            }
+            cout<<"\n";
+	    }
+	}
+
+}
