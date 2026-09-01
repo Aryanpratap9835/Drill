@@ -1,0 +1,39 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,m,k;
+        cin>>n>>m>>k;
+        vector<int>a(n);
+        vector<int>b(m);
+        for(auto &it:a)cin>>it;
+        for(auto &it:b)cin>>it;
+        sort(a.begin(),a.end());
+        sort(b.begin(),b.end());
+        int li=a[0]+b[0];
+        int hi=a[n-1]+b[m-1];
+        int ans=0;
+        if(n>m){
+            swap(n,m);
+            swap(a,b);
+        }
+        while(li<=hi){
+            int mid=li+(hi-li)/2;
+            int ne=0;
+            for(int i=0;i<n;i++){
+                ne+=upper_bound(b.begin(),b.end(),mid-a[i])-b.begin();
+            }
+            if(ne>=k){
+                hi=mid-1;
+                ans=mid;
+            }else{
+                li=mid+1;
+            }
+            
+        }cout<<ans<<"\n";
+    }
+}
