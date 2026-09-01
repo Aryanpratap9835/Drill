@@ -1,0 +1,41 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+bool check(int mid,vector<int>prefix,int n,int k){
+    for(int i=0;i<n-mid+1;i++){
+        if(i==0){
+            if(mid-prefix[i+mid-1]<=k)return true;
+        }else{
+            if(mid-prefix[i+mid-1]+prefix[i-1]<=k)return true;
+        }
+    }
+    return false;
+}
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k;
+        cin>>n>>k;
+        vector<int>ans(n);
+        for(auto &it:ans)cin>>it;
+        vector<int>prefix(n);
+        prefix[0]=ans[0];
+        for(int i=1;i<n;i++){
+            prefix[i]=prefix[i-1]+ans[i];
+        }
+        int a=0;
+        int li=0;int hi=n;
+        while(li<=hi){
+            int mid=li+(hi-li)/2;
+            if(check(mid,prefix,n,k)){
+                a=mid;
+                li=mid+1;
+            }else{
+                hi=mid-1;
+            }
+        }
+        cout<<a<<"\n";
+    }
+}
