@@ -1,0 +1,31 @@
+class Solution {
+public:
+   long long  gcd(long long a,long long b){
+    if(b==0)return a;
+    return gcd(b,a%b);
+   }
+   long long lcm(long long a,long long b){
+    return a/gcd(a,b)*b;
+   }
+    bool check(long long mid,long long n,long long  a,long long b,long long c){
+        long long cnt=0;
+        cnt+=(mid/a)+(mid/b)+(mid/c)-(mid/lcm(a,b))-(mid/lcm(b,c))-(mid/lcm(a,c))+(mid/lcm(lcm(a,b),c));
+        return cnt>=n;
+    }
+    int nthUglyNumber(int n, int a, int b, int c) {
+        long long l=0;long long h=2e9;
+        long long ans=0;
+        while(l<=h){
+            long long mid=l+(h-l)/2;
+            if(check(mid,n,a,b,c)){
+                ans=mid;
+                h=mid-1;
+            }else{
+                l=mid+1;
+            }
+        }
+        int k=(int)ans;
+        return k;
+
+    }
+};
