@@ -1,0 +1,38 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define double long double
+bool check(double mid,vector<double>&a,vector<double>&b,int k){
+    vector<double>v;
+    for(int i=0;i<a.size();i++)v.push_back(a[i]-mid*b[i]);
+    nth_element(v.begin(),v.begin()+k,v.end(),greater<double>());
+    double sum=0;
+    for(int i=0;i<k;i++){
+        sum+=v[i];
+    }
+    return sum>=0.0;
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k;
+        cin>>n>>k;
+        vector<double>a(n),b(n);
+        for(int i=0;i<n;i++)cin>>a[i];
+        for(int j=0;j<n;j++)cin>>b[j];
+        double li=0;
+        double hi=accumulate(a.begin(),a.end(),0.0L)/k;
+        double ans=0;
+        for(int i=0;i<60;i++){
+            double mid=li+(hi-li)/2;
+            if(check(mid,a,b,k)){
+                li=mid;
+                ans=mid;
+            }else{
+                hi=mid;
+            }
+        }
+        cout<<fixed<<setprecision(6)<<li<<"\n";
+    }
+}
