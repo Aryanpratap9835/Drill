@@ -1,0 +1,39 @@
+
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    int tail = 0;
+    int head = -1;
+
+    while (tail < n) {
+
+        while (head + 1 < n && dist < k) {
+            head++;
+
+            if (freq[arr[head]] == 0)
+                dist++;
+
+            freq[arr[head]]++;
+        }
+
+        // Use the current window [tail, head]
+
+        if (tail <= head) {
+            freq[arr[tail]]--;
+
+            if (freq[arr[tail]] == 0)
+                dist--;
+
+            tail++;
+        } 
+        else {
+            tail++;
+            head = tail - 1;
+        }
+    }
+}
+
