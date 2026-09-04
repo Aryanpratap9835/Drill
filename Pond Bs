@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool check(int mid, vector<vector<int>>& a, int n, int k) {
+
+    // p[i][j] = number of elements <= mid
+    // in rectangle from (0,0) to (i-1,j-1)
+    vector<vector<int>> p(n + 1, vector<int>(n + 1, 0));
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+
+            int x = (a[i - 1][j - 1] <= mid);
+
+            p[i][j] = p[i - 1][j]
+                    + p[i][j - 1]
+                    - p[i - 1][j - 1]
+                    + x;
+        }
+    }
+
+    int need = (k * k + 1) / 2;
+
+    // Check every K x K square
+    for (int i = k; i <= n; i++) {
+        for (int j = k; j <= n; j++) {
+
+            int cnt = p[i][j]
+                    - p[i - k][j]
+                    - p[i][j - k]
+                    + p[i - k][j - k];
+
+            if (cnt >= need)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+int main() {
+
+    int n, k;
+    cin >> n >> k;
+
+    vector<vector<int>> a(n, vector<int>(n));
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> a[i][j];
+        }
+    }
+
+    int lo = 0;
+    int hi = 1e9;
+
+    while (lo <= hi) {
+
+        int mid = lo + (hi - lo) / 2;
+
+        if (check(mid, a, n, k)) {
+            hi = mid - 1;
+        }
+        else {
+            lo = mid + 1;
+        }
+    }
+
+    cout << lo << '\n';
+}
