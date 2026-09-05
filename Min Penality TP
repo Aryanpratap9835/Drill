@@ -1,0 +1,33 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+int Pen(const vector<int>&arr,int n,int k){
+    map<int,int>mpp;
+    int penality=1e9;
+    for(int head=0;head<n;head++){
+          mpp[arr[head]]++;
+        if(head>=k){ 
+            mpp[arr[head-k]]--;
+            if(mpp[arr[head-k]]==0)mpp.erase(arr[head-k]);
+        }
+        if(head>=k-1){
+            penality=min(penality,(int)mpp.size());
+           
+        }
+      
+    }
+    return penality;
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,d;
+        cin>>n>>d;
+        vector<int>ans(n);
+        for(auto&it:ans)cin>>it;
+        int cole=Pen(ans,n,d);
+        cout<<cole<<"\n";
+    }
+    return 0;
+}
