@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> minimumsUsingMultiset(const vector<int>& arr, int k) {
+    int n = static_cast<int>(arr.size());
+    vector<int> answer;
+
+    if (k <= 0 || k > n) {
+        return answer;
+    }
+
+    multiset<int> window;
+
+    for (int head = 0; head < n; head++) {
+        // The current element enters the window.
+        window.insert(arr[head]);
+
+        // The element K positions behind HEAD has expired.
+        if (head - k >= 0) {
+            int expired = arr[head - k];
+            window.erase(window.find(expired));
+        }
+
+        // A complete window exists from HEAD - K + 1 to HEAD.
+        if (head >= k - 1) {
+            answer.push_back(*window.begin());
+        }
+    }
+
+    return answer;
+}
+
+int main() {
+    vector<int> arr = {3, 1, 4, 2, 8, 6, 5, 7};
+    int k = 3;
+
+    vector<int> answer = minimumsUsingMultiset(arr, k);
+
+    for (int value : answer) {
+        cout << value << ' ';
+    }
+    cout << '\n';
+
+    return 0;
+}
