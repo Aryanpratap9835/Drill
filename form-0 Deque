@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> minimumsUsingDeque(const vector<int>& arr, int k) {
+    int n = static_cast<int>(arr.size());
+    vector<int> answer;
+
+    if (k <= 0 || k > n) {
+        return answer;
+    }
+
+    // Stores indices of useful candidates.
+    deque<int> dq;
+
+    for (int head = 0; head < n; head++) {
+        // Remove indices that are outside the current window.
+        while (!dq.empty() && dq.front() <= head - k) {
+            dq.pop_front();
+        }
+
+        // Remove candidates dominated by arr[head].
+        while (!dq.empty() && arr[dq.back()] >= arr[head]) {
+            dq.pop_back();
+        }
+
+        // HEAD becomes the newest candidate.
+        dq.push_back(head);
+
+        // The front stores the minimum of a complete window.
+        if (head >= k - 1) {
+            answer.push_back(arr[dq.front()]);
+        }
+    }
+
+    return answer;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> arr(n);
+    for (int& value : arr) {
+        cin >> value;
+    }
+
+    vector<int> answer = minimumsUsingDeque(arr, k);
+
+    for (int value : answer) {
+        cout << value << ' ';
+    }
+    cout << '\n';
+
+    return 0;
+}
