@@ -1,0 +1,40 @@
+class Solution {
+public:
+  bool check(double mid,double target,const vector<vector<int>>&sq){
+    double bel=0;
+    for(auto &it:sq){
+        double y=it[1];
+        double l=it[2];
+        if(mid<=y)continue;
+        else{
+            if(mid>=y+l){
+                bel+=(l*l);
+            }else{
+                bel+=(mid-y)*l;
+            }
+        }
+    }return bel>=target;
+  }
+    double separateSquares(vector<vector<int>>& squares) {
+        double li=1e18;
+        double hi=-1e18;
+        double total=0;
+        for(auto&it:squares){
+            double y=it[1];
+            double x=it[2];
+            li=min(li,y);
+            hi=max(hi,y+x);
+            total+=(x*x);
+        }
+        double target=total/2.0;
+        for(int i=0;i<100;i++){
+            double mid=(li+hi)/2;
+            if(check(mid,target,squares)){
+                hi=mid;
+            }else{
+                li=mid;
+            }
+        }
+        return hi;
+    }
+};
