@@ -1,0 +1,38 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+void solve(const vector<int>&arr,int n){
+    unordered_map<int,int>freq;
+    
+    int head=-1;int tail=0;
+    int ans=0;
+    while(tail<n){
+        while(head+1<n&&freq[arr[head+1]]==0){
+            head++;
+            freq[arr[head]]++;
+        }
+        ans=max(ans,head-tail+1);
+        if(tail<=head){
+            freq[arr[tail]]--;
+            if(freq[arr[tail]]==0)
+            tail++;
+        }else{
+            tail++;
+            head=tail-1;
+
+        }
+    }
+    cout<<ans<<"\n";
+}
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int>arr(n);
+        for(auto&it:arr)cin>>it;
+        solve(arr,n);
+    }
+}
