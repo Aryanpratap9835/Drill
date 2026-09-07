@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+bool check(int mid, const vector<int>& arr, int k) {
+    int forbidden = upper_bound(arr.begin(), arr.end(), mid) - arr.begin();
+    int valid = mid - forbidden;
+
+    return valid >= k;
+}
+
+signed main() {
+    int N, Q;
+    cin >> N >> Q;
+
+    vector<int> arr(N);
+
+    for (auto &x : arr) {
+        cin >> x;
+    }
+
+    // A is already sorted and distinct according to the constraints.
+
+    while (Q--) {
+        int K;
+        cin >> K;
+
+        int l = 1;
+        int h = K + N;
+        int ans = 0;
+
+        while (l <= h) {
+            int mid = l + (h - l) / 2;
+
+            if (check(mid, arr, K)) {
+                ans = mid;
+                h = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        cout << ans << '\n';
+    }
+
+    return 0;
+}
