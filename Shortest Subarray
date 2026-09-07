@@ -1,0 +1,38 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+void solve(const vector<int>&arr,int n){
+    unordered_map<int,int>mpp;
+    for(int x:arr)mpp[x]++;
+    int dist=(int)mpp.size();
+    int head=-1;int tail=0;
+    int ans=1e9;
+    mpp.clear();
+    while(tail<n){
+        while(head+1<n&&dist>(int)mpp.size()){
+            mpp[arr[head+1]]++;
+            head++;
+        }
+        if(dist==(int)mpp.size())ans=min(ans,head-tail+1);
+        if(head>=tail){
+            mpp[arr[tail]]--;
+            if(mpp[arr[tail]]==0)mpp.erase(arr[tail]);
+            tail++;
+        }else{
+            tail++;
+            head=tail-1;
+        }
+    }cout<<ans<<"\n";
+}
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int>arr(n);
+        for(auto &it:arr)cin>>it;
+        solve(arr,n);
+    }
+}
