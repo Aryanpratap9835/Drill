@@ -1,0 +1,26 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,m;
+        cin>>n>>m;
+        vector<int>A(n),B(m);
+        for(auto&it:A)cin>>it;
+        for(auto&it:B)cin>>it;
+        int tail=0;int head=0;
+        while(tail<A.size()&&head<B.size()){
+             if(A[tail]==B[head]){
+                tail++;
+                head++;
+             }else{
+                tail++;
+             }
+        }
+        if(head==B.size())cout<<"YES\n";
+        else cout<<"NO\n";
+
+    }
+}
