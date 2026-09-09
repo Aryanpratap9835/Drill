@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+multiset<int>st;
+void rec(const vector<int>&arr,int lvl,int n){
+    if(lvl==n){
+        for(auto x:st)cout<<x<<" ";
+        cout<<"\n";
+        return;
+    }
+    st.insert(arr[lvl]);
+    rec(arr,lvl+1,n);
+    st.erase(st.find(arr[lvl]));
+    rec(arr,lvl+1,n);
+    
+}
+signed main() {
+	int n;
+	cin>>n;
+	vector<int>arr(n);
+	for(auto&it:arr)cin>>it;
+	rec(arr,0,n);
+}
