@@ -1,0 +1,48 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+bool check(int mid,const vector<int>&arr){
+    int cnt=0;
+    int n=arr.size();
+    int head=-1;int tail=0;int sum=0;
+    while(tail<n){
+        while(head+1<n&&sum+arr[head+1]<=mid){
+            head++;
+            sum+=arr[head];
+        }
+        cnt+=head-tail+1;
+        if(tail<=head){
+            sum-=arr[tail++];
+        }else{
+            tail++;
+            head=tail-1;
+        }
+    }
+    int m=n*(n+1)/2;
+    return cnt>=(m+1)/2;
+    }
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int>arr(n);
+        for(auto&it:arr)cin>>it;
+        int li=*min_element(arr.begin(),arr.end());
+        int hi=accumulate(arr.begin(),arr.end(),0LL);
+        int ans=0;
+        while(li<=hi){
+            int mid=li+(hi-li)/2;
+            if(check(mid,arr)){
+                ans=mid;
+                hi=mid-1;
+            }else{
+                li=mid+1;
+            }
+        }
+        cout<<ans<<"\n"; 
+        
+    }
+}
