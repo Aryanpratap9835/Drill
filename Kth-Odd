@@ -1,0 +1,46 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+signed main(){
+  int t;
+  cin>>t;
+  while(t--){
+    int n,k,D;
+    cin>>n>>k>>D;
+    vector<int>arr(n);
+    int ans=LLONG_MIN;
+    for(auto&it:arr)cin>>it;
+    vector<int>prefix(n+1,0);
+    for(int i=0;i<n;i++){
+        prefix[i+1]=prefix[i]+arr[i];
+    }
+    multiset<int>st;
+   int cnt=0;int head=-1;int tail=0;
+ while(tail<n){
+    while(head+1<n){
+       if(cnt+(arr[head+1]%2!=0)>k)break;
+        if(arr[head+1]%2!=0)cnt++;
+        head++;
+        st.insert(prefix[head+1]);
+    }
+        int before=(tail>0?prefix[tail]:0);
+        int need=before+D;
+        auto it=st.upper_bound(need);
+        if(it!=st.begin()){
+            it--;
+            ans=max(ans,*it-before);
+        }
+    if(tail<=head){
+        st.erase(st.find(prefix[tail+1]));
+        if(arr[tail]%2!=0)cnt--;
+        tail++;
+    }else{
+        tail++;
+        head=tail-1;
+    }
+ }
+  if(ans==LLONG_MIN)cout<<"IMPOSSIBLE\n";
+  else cout<<ans<<"\n";
+}
+}
