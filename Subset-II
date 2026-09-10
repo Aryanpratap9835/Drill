@@ -1,0 +1,27 @@
+class Solution {
+public:
+  map<int,int>mpp;
+  vector<pair<int,int>>freq;
+  vector<int>st;
+     void rec(int lvl,vector<vector<int>>&cole,vector<int>&nums){
+        if(lvl==freq.size()){
+            cole.push_back(st);
+            return;
+        }
+        for(int i=0;i<=freq[lvl].second;i++){
+            for(int j=0;j<i;j++){
+                st.push_back(freq[lvl].first);
+            }
+            rec(lvl+1,cole,nums);
+            for(int j=0;j<i;j++)st.pop_back();
+        }
+     }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>>cole;
+       
+        for(int x:nums)mpp[x]++;
+        for(auto v:mpp)freq.push_back(v);
+        rec(0,cole,nums);
+        return cole;
+    }
+};
