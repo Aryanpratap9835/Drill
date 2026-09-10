@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	int n,m,p;
+	cin>>n>>m>>p;
+	vector<int>a(n);
+	for(auto &it:a)cin>>it;
+	vector<int>b(m);
+	for(auto&it:b)cin>>it;
+	vector<int>ans;
+	map<int,int>mpp;
+	for(int x:b)mpp[x]++;
+	for(int start=0;start<min(p,n);start++){
+	 map<int,int>Freq;
+	 vector<int>v;
+	 for(int i=start;i<n;i+=p){
+	     v.push_back(a[i]);
+	 }
+	 if(v.size()<m)continue;
+	 for(int i=0;i<m;i++){
+	     Freq[v[i]]++;
+	 }
+	 if(Freq==mpp){
+	     ans.push_back(start+1);
+	 }
+	 for(int i=m;i<v.size();i++){
+	     Freq[v[i-m]]--;
+	     if(Freq[v[i-m]]==0){
+	         Freq.erase(v[i-m]);
+	     }
+	     Freq[v[i]]++;
+	     if(Freq==mpp){
+	         ans.push_back(start+(i-m+1)*p+1);
+	     }
+	 }
+
+	}
+	sort(ans.begin(),ans.end());
+	cout<<ans.size()<<"\n";
+	for(int x:ans)cout<<x<<" ";
+}
