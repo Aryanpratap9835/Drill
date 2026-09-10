@@ -1,0 +1,29 @@
+class Solution {
+public:
+  vector<int>ans;
+  map<int,int>mpp;
+  vector<pair<int,int>>freq;
+  void rec(int lvl,vector<vector<int>>&cole,int n){
+    if(lvl==n){
+        cole.push_back(ans);
+        return;
+    }
+    for(int i=0;i<freq.size();i++){
+       if(freq[i].second>0){
+        freq[i].second--;
+        ans.push_back(freq[i].first);
+        rec(lvl+1,cole,n);
+        freq[i].second++;
+        ans.pop_back();
+       }
+
+    }
+  }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>cole;
+        for(int x:nums)mpp[x]++;
+        for(auto it:mpp)freq.push_back(it);
+        rec(0,cole,nums.size());
+        return cole;
+    }
+};
