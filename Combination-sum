@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void rec(int lvl,int sum,vector<vector<int>>&cole,vector<int>&nas,vector<int>&candidates,int target){
+        if(lvl==candidates.size()||sum>target)return;
+        if(sum==target){
+                cole.push_back(nas);
+                 return;
+            }
+           
+        for(int i=lvl;i<candidates.size();i++){
+            if(sum+candidates[i]<=target){
+                nas.push_back(candidates[i]);
+                rec(i,sum+candidates[i],cole,nas,candidates,target);
+                nas.pop_back();
+        }
+    }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>cole;
+        vector<int>nas;
+        rec(0,0,cole,nas,candidates,target);
+        return cole;
+    }
+};
