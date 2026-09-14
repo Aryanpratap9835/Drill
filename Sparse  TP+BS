@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+signed main(){
+  int n,d;
+  cin>>n>>d;
+  vector<int>ans(n);
+  for(auto& x:ans)cin>>x;
+  int r=0;
+  int nas=0;
+   set<int> st({-1000000000LL, 2000000000LL});
+  for(int l=0;l<n;l++){
+    while(r<n){
+      auto it=st.lower_bound(ans[r]);
+      if(*it-ans[l]<d)break;
+      --it;
+      if(ans[l]-*it<d)break;
+      st.insert(ans[r]);
+      r++;
+    }
+    st.erase(st.find(ans[l]));
+    nas+=r-l;
+  }
+  
+  cout<<nas<<"\n";
+}
