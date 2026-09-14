@@ -1,0 +1,30 @@
+vector<long long>p[2];
+  int init=[](){
+    long long M=1e9;
+    for(int i=1;i<100000;i++){
+        string s=to_string(i);
+        string r=s;
+        reverse(r.begin(),r.end());
+        long long a1=stoll(s.substr(0,s.size()-1)+r);
+        long long a2=stoll(s+r);
+        if(a1<M)p[a1&1].push_back(a1);
+        if(a2<M)p[a2&1].push_back(a2);
+    }
+    sort(p[0].begin(),p[0].end());
+    sort(p[1].begin(),p[1].end());
+    return 0;
+  }();
+class Solution {
+public:
+    long long minOperations(vector<int>& nums) {
+        long long res=0;
+        for(int a:nums){
+            auto &P=p[a&1];
+            int i=lower_bound(P.begin(),P.end(),a)-P.begin();
+            if(i>=P.size())i=P.size()-1;
+            long long d1=abs(a-P[i]);
+            long long d2=(i>0)?abs(a-P[i-1]):d1;
+            res+=min(d1,d2)/2;
+        }return res;
+    }
+};
