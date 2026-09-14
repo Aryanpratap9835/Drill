@@ -1,0 +1,28 @@
+class Solution {
+public:
+   int Kth(vector<int>&nums,int k){
+    int tail=0;int head=-1;
+    int dist=0;unordered_map<int,int>mpp;
+    int n=nums.size();
+    int ans=0;
+    while(tail<n){
+        while(head+1<n&&(dist+(mpp[nums[head+1]]==0)<=k||mpp[nums[head+1]]>0)){
+            if(mpp[nums[head+1]]==0){dist++;
+            }mpp[nums[head+1]]++;
+            head++;
+        }
+        ans+=head-tail+1;
+        if(tail<=head){
+            mpp[nums[tail]]--;
+            if(mpp[nums[tail]]==0){mpp.erase(nums[tail]);dist--;};
+            tail++;
+        }else{
+            tail++;
+            head=tail-1;
+        }
+    }return ans;
+   }
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return Kth(nums,k)-Kth(nums,k-1);
+    }
+};
