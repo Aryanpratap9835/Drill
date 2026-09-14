@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	int n,k;
+	cin>>n>>k;
+	vector<int>ans(n);
+	for(int i=0;i<n;i++)cin>>ans[i];
+	deque<int>dq;
+	vector<int>prefix(n+1,0);
+	for(int i=1;i<=n;i++){
+	    prefix[i]=prefix[i-1]+ans[i-1];
+	}
+	int nas=n+1;
+	for(int i=0;i<=n;i++){
+	    while(!dq.empty()&&prefix[i]-prefix[dq.front()]>=k){
+	        nas=min(nas,i-dq.front());
+	        dq.pop_front();
+	    }
+	    while(!dq.empty()&&prefix[dq.back()]>=prefix[i]){
+	        dq.pop_back();
+	    }
+	    dq.push_back(i);
+	}
+	if(nas==n+1){
+	    cout<<-1<<"\n";
+	}else cout<<nas<<"\n";
+
+}
