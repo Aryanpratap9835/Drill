@@ -1,0 +1,36 @@
+class Solution {
+  public:
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+         vector<vector<int>>adj(V);
+         for(auto edge:edges){
+             int u=edge[0];
+             int v=edge[1];
+             adj[u].push_back(v);
+             adj[v].push_back(u);
+         }
+        vector<int>parent(V,-1);
+        vector<bool>visited(V,false);
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+            q.push(i);
+            visited[i]=true;
+            while(!q.empty()){
+            int x=q.front();
+            q.pop();
+         for(int it:adj[x]){
+             if(!visited[it]){
+                 parent[it]=x;
+                 visited[it]=true;
+                 q.push(it);
+             }else if(it!=parent[x]){
+                 return true;
+             }
+             }
+         }
+            }
+        }
+         return false;
+    }
+};
