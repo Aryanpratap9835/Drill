@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int countSpecialIntegers(vector<int>& arr) {
+        unordered_map<int,vector<int>>mpp;
+        int n=arr.size();
+	for(int i=0;i<n;i++){
+	    mpp[arr[i]].push_back(i);
+	}int cnt=0;
+	for(auto&x:mpp){
+	    if(x.second.size()>=3){
+	        int diff=x.second[1]-x.second[0];
+	        bool flag=false;
+	        for(int i=2;i<x.second.size();i++){
+	            int newDiff=x.second[i]-x.second[i-1];
+	            if(diff!=newDiff){
+	                flag=true;
+	                break;
+	        }
+	    }
+	    if(flag==false)cnt++;
+	}
+    }return cnt;
+    }
+};
