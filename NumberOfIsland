@@ -1,0 +1,33 @@
+class Solution {
+public:
+  int dr[4]={-1,1,0,0};
+  int dc[4]={0,0,-1,1};
+    int numIslands(vector<vector<char>>& grid) {
+        int n=grid.size();
+        vector<vector<bool>>visited(n,vector<bool>(grid[0].size(),false));
+        queue<pair<int,int>>q;
+        int island=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<grid[i].size();j++){
+            if(grid[i][j]!='0'&&!visited[i][j]){
+                visited[i][j]=true;
+                island++;
+                q.push({i,j});
+                while(!q.empty()){
+                    auto [m,n]=q.front();
+                    q.pop();
+                   
+                    for(int k=0;k<4;k++){
+                        int r=dr[k]+m;
+                        int c=dc[k]+n;
+                        if(r<0||r>=grid.size()||c<0||c>=grid[i].size())continue;
+                        if(grid[r][c]=='0'||visited[r][c])continue;
+                        visited[r][c]=true;
+                        q.push({r,c});
+                    }
+                }
+            }
+        }
+    }return island;
+    }
+};
