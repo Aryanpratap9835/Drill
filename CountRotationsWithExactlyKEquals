@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countRotations(string s, int k) {
+        	vector<int>score;
+	vector<string>st;
+	st.push_back(s);
+	for(int i=0;i<s.size()-1;i++){
+	    s=s.substr(1,s.size())+s[0];
+	    st.push_back(s);
+	}
+	for(string t:st){
+	    int cnt=0;
+	    for(int i=1;i<t.size();i++){
+	        if(t[i]==t[i-1])cnt++;
+	    }
+	    score.push_back(cnt);
+	}
+	  int x=count(score.begin(),score.end(),k);
+      return x;
+    }
+};
