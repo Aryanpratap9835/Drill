@@ -1,0 +1,28 @@
+
+class Solution {
+public:
+const long long mod=1e9+7;
+long long binpow(long long xi,long long yi,long long mod){
+    long long jayz=1;
+    while(yi>0){
+        if(yi&1)jayz=(jayz*xi)%mod;
+        xi=(xi*xi)%mod;
+        yi/=2;
+    }
+    return jayz;
+}
+    int sumDecoded(vector<long long>& ans){
+	long long cole=0;
+	for(long long i=0;i<ans.size();i++){
+	    long long width=ans[i]%10;
+	    string s=to_string(ans[i]);
+	    string x=s.substr(0,width);
+	    string y=s.substr(width,s.size()-x.size()-1);
+	    long long xi=stoi(x);
+	    long long yi=stoi(y);
+	    long long nas=binpow(xi,yi,mod);
+	    cole=(cole+nas)%mod;
+    }
+    return (int)cole;
+    }
+};
