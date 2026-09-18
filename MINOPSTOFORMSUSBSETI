@@ -1,0 +1,38 @@
+class Solution {
+public:
+     int solve(vector<int>&nums,vector<vector<int>>&dp,int sum,int i){
+if(sum==0)return 0;
+if(i>=nums.size())return INT_MAX;
+if(sum<0)return INT_MAX;
+if(dp[i][sum]!=-1)return dp[i][sum];
+ int ans=INT_MAX;
+ ans=min(ans,solve(nums,dp,sum,i+1));
+ int val=nums[i];
+ int ops=0;
+ while(val>0){
+    val=val/2;
+    ops++;
+    int rr=solve(nums,dp,sum-val,i+1);
+    if(rr!=INT_MAX)rr=rr+ops;
+    ans=min(ans,rr);
+ }
+ val=nums[i];
+ ops=0;
+ while(val<=5000){
+    int rr=solve(nums,dp,sum-val,i+1);
+    if(rr!=INT_MAX)rr=rr+ops;
+    ans=min(ans,rr);
+    ops++;
+    val*=2;
+     }
+     return dp[i][sum]=ans;
+
+     }
+    int minOperations(vector<int>& nums, int sum) {
+        int n=nums.size();
+        vector<vector<int>>dp(n+1,vector<int>(5002,-1));
+        int ans=solve(nums,dp,sum,0);
+        if(ans==INT_MAX)return -1;
+        return ans;
+    }
+};
