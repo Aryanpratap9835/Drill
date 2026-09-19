@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> largestString(vector<int>& nums) {
+        int n=nums.size();
+        vector<string>str(n);
+       for(int j=0;j<n;j++){
+        int ans=nums[j];
+        string s=""; 
+        for(int i=25;i>=0;i--){
+           int count=ans/(1<<i);
+           if(i==25){
+           while(count!=0){
+              s=s+char('a'+i);
+              count--;
+           }
+           ans%=(1<<25);
+           }else{
+             if((ans/(1<<i))!=0){
+                 s=s+char(97+i);
+	            ans=ans%(1<<i);
+           }
+        }
+        }str[j]=s;
+    }
+    return str;
+    }
+};
