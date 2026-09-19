@@ -1,0 +1,31 @@
+class Solution {
+public:
+    const int dirs[4][2]={{1,1},{-1,1},{-1,-1},{1,-1}};
+    int minBishopMoves(vector<int>& source, vector<int>& target) {
+        vector<vector<bool>>vis(9,vector<bool>(9,false));
+        vector<vector<int>>dist(9,vector<int>(9,-1));
+        dist[source[0]][source[1]]=0;
+        queue<pair<int,int>>q;
+        q.push({source[0],source[1]});
+        while(!q.empty()){
+            auto it=q.front();
+            q.pop();
+            if(vis[it.first][it.second]==true)continue;
+            vis[it.first][it.second]=true;
+            for(auto d:dirs){
+                int r =d[0]+it.first;
+                int c=d[1]+it.second;
+                 while(r >= 1 && r <= 8 && c >= 1 && c <= 8) {
+            if(dist[r][c] == -1) {
+                dist[r][c] = dist[it.first][it.second] + 1;
+                if(r == target[0] && c == target[1]) {
+                    return dist[r][c];
+            }
+                q.push({r,c});
+        }
+        r+=d[0];c+=d[1];
+    }
+    }
+    }return -1;
+    }
+};
