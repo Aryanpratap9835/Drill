@@ -1,0 +1,19 @@
+class Solution {
+  public:
+   void dfs(int i,vector<int>&ans,vector<bool>&vis,vector<vector<int>>&adj){
+       if(vis[i])return;
+       vis[i]=true;
+       ans.push_back(i);
+       for(auto neig:adj[i]){
+           if(!vis[neig])dfs(neig,ans,vis,adj);
+       }
+   }
+    vector<int> dfs(vector<vector<int>>& adj) {
+        // Code here
+        
+        vector<int>ans;
+        vector<bool>vis(adj.size(),false);
+        dfs(0,ans,vis,adj);
+        return ans;
+    }
+};
