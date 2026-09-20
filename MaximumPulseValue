@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long maxValue(vector<int>& nums) {
+        long long base=0;
+        for(int i=0;i<nums.size();i++){
+            base+=(i%2==0?nums[i]:-nums[i]);
+        }
+        vector<long long>prefix(nums.size()+1,0);
+        for(int i=0;i<nums.size();i++){
+            long long gain=(i%2==0?-2LL*nums[i]:2LL*nums[i]);
+            prefix[i+1]=prefix[i]+gain;
+        }
+        long long delta=0;
+        long long mn[2]={LLONG_MAX,LLONG_MAX};
+        for(int j=2;j<=nums.size();j++){
+            int i=j-2;
+            mn[i%2]=min(mn[i%2],prefix[i]);
+            delta=max(delta,prefix[j]-mn[j%2]);
+        }
+        return base+delta;
+        
+    }
+};
