@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, m;
+
+vector<vector<int>> g;
+vector<int> vis;
+vector<int> component;
+vector<int> vertexColor;
+
+void dfs(int node, int comp, int color) {
+
+    vis[node] = 1;
+
+    // Connected component number
+    component[node] = comp;
+
+    // DFS depth / vertex color
+    vertexColor[node] = color;
+
+    for (auto it : g[node]) {
+        if (!vis[it]) {
+            dfs(it, comp, color + 1);
+        }
+    }
+}
+
+void solve() {
+
+    cin >> n >> m;
+
+    g.resize(n + 1);
+    vis.resize(n + 1, 0);
+    component.resize(n + 1, 0);
+    vertexColor.resize(n + 1, 0);
+
+    for (int i = 0; i < m; i++) {
+
+        int a, b;
+        cin >> a >> b;
+
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+
+    int comp = 0;
+
+    for (int i = 1; i <= n; i++) {
+
+        if (!vis[i]) {
+
+            comp++;
+
+            // New component starts with vertex color 1
+            dfs(i, comp, 1);
+        }
+    }
+
+    cout << "Total Components = " << comp << "\n\n";
+
+    cout << "Vertex : Component : VertexColor\n";
+
+    for (int i = 1; i <= n; i++) {
+
+        cout << i << " : "
+             << component[i] << " : "
+             << vertexColor[i] << "\n";
+    }
+
+    // Group vertices according to their component
+    vector<vector<int>> colNode(comp + 1);
+
+    for (int i = 1; i <= n; i++) {
+        colNode[component[i]].push_back(i);
+    }
+
+    cout << "\nComponents:\n";
+
+    for (int i = 1; i <= comp; i++) {
+
+        cout << "Component " << i << " [ ";
+
+        for (auto v : colNode[i]) {
+            cout << v << " ";
+        }
+
+        cout << "]\n";
+    }
+}
+
+int main() {
+    solve();
+    return 0;
+}
