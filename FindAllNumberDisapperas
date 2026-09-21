@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> findDisappearedNumbers(vector<int>& nums, int lower, int upper) {
+        vector<vector<int>>ans;
+        ans.push_back({});
+        set<int>st;
+        for(int x:nums)st.insert(x);
+        vector<int>series;
+        for(int i=lower;i<=upper;i++){
+            if(!st.count(i))series.push_back(i);
+        }
+        if(st.count(lower)&&st.count(upper)&&series.size()==0)return {};
+        if(series.size()==1)return {{series[0],series[0]}};
+        int j=0;
+        ans[j].push_back(series[0]);
+        for(int i=1;i<series.size();i++){
+            if(series[i]!=series[i-1]+1){
+                ans[j].push_back(series[i-1]);
+                if(ans[j].size()==1)ans[j].push_back(series[i-1]);
+                j++;
+                ans.push_back({});
+                ans[j].push_back(series[i]);
+            }
+            if(i==series.size()-1){
+                ans[j].push_back(series[i]);
+            }
+        }return ans;
+    }
+};
