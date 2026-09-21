@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isP(const string cole){
+        for(int i=0;i<cole.size()/2;i++){
+            if(cole[i]!=cole[cole.size()-i-1])return false;
+        }return true;
+    }
+    bool isPalindromic(string s) {
+        string cole;
+      for(int i=0;i<s.size();i++){
+          int x=(int)s[i];
+          int ans=0;int mul=1;
+          int steps=0;
+          string str;
+          while(x!=0){
+              ans=ans+(x%2)*mul;
+              mul*=10;
+              x/=2;
+              steps++;
+          }
+          str=to_string(ans);
+          if(steps-8!=0){
+              for(int i=0;i<8-steps;i++){
+                  str="0"+str;
+              }
+          }
+          cole=str+cole;
+      }return isP(cole)?true:false;  
+    }
+};
