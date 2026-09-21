@@ -1,0 +1,61 @@
+class Solution {
+public:
+   vector<vector<int>>factor;
+   void findP(int x,int i,vector<int>&spf){
+    while(x>1){
+        int j=spf[x];
+        factor[i].push_back(j);
+        while(x%j==0)x/=j;
+    }
+   }
+    int longestSubarray(vector<int>& ans, int k) {
+        int mx=*max_element(ans.begin(),ans.end());
+        int n=ans.size();
+        vector<int>spf(mx+1);
+        for(int i=2;i<=mx;i++){
+            spf[i]=i;
+        }
+        for(int i=2;i*i<=mx;i++){
+             if(spf[i]==i){
+                for(int j=i*i;j<=mx;j+=i){
+                    spf[j]=spf[i];
+                }
+            }
+        }factor.resize(n,vector<int>());
+        for(int i=0;i<n;i++){
+        findP(ans[i],i,spf);
+        }
+        int dist=0;
+        unordered_map<int,int>mpp;
+        int tail=0;int head=-1;
+         int lens=0;
+         while(tail<n){
+            while(head+1<n){
+             int next=head+1;
+             for(int p:factor[next]){
+                if(mpp[p]==0)dist++;
+                mpp[p]++;
+             }
+             if(dist>k){
+                for(int p:factor[next]){
+                    mpp[p]--;
+                    if(mpp[p]==0)dist--;
+                }
+                break;
+             }
+             head++;   
+            }
+            lens=max(lens,head-tail+1);
+            if(tail<=head){
+                for(int p:factor[tail]){
+                    mpp[p]--;
+                    if(mpp[p]==0)dist--;
+                }
+                tail++;
+            }else{
+                tail++;
+                head=tail-1;
+            }
+         }return lens;
+    }
+};
