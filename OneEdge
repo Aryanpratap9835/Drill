@@ -1,0 +1,47 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<int>>g;
+vector<int>vis,color;
+int n,m;
+void dfs(int node,int cc){
+    vis[node]=1;
+    color[node]=cc;
+    for(auto &it:g[node]){
+        if(!vis[it]){
+            dfs(it,cc);
+        }
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cin>>n>>m;
+    g.resize(n+1);
+    vis.assign(n+1,0);
+    color.assign(n+1,0);
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        g[a].emplace_back(b);
+        g[b].emplace_back(a);
+    }
+    int cc=0;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            cc++;
+            dfs(i,cc);
+        }
+    }
+    vector<int>len(cc+1,0);
+    for(int i=1;i<=n;i++){
+        len[color[i]]++;
+    }
+    long long cole=0;
+    long long prev=0;
+    for(int i=1;i<len.size();i++){
+        cole+=len[i]*prev;
+        prev+=len[i];
+    }
+    cout<<cole<<"\n";
+}
