@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int minPenalty(int period, vector<int>& light, vector<int>& arrivalTime) {
+        int ans=0;
+        sort(light.begin(),light.end());
+        for(int i=0;i<arrivalTime.size();i++){
+           int cole=arrivalTime[i]%period;
+            int idx=upper_bound(light.begin(),light.end(),cole)-light.begin();
+            if(idx==light.size()){
+                ans=max(ans,period-cole);
+            }
+        }return ans;
+    }
+};
