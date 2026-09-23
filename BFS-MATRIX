@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<char>>g;
+using state=pair<int,int>;
+int n,m;
+vector<vector<int>>vis;
+vector<vector<int>>dist;
+vector<vector<state>>par;
+ int dx[4]={-1,0,1,0};
+    int dy[4]={0,-1,0,1};
+bool isValid(int r,int c){
+    if(r>=0&&c>=0&&r<n&&c<m&&g[r][c]!='#')return 1;
+    return 0;
+}
+vector<state>neighbour(state it){
+    vector<state>neigh;
+   for(int k=0;k<4;k++){
+       int r=dx[k]+it.first;
+       int c=dy[k]+it.second;
+       if(isValid(r,c)){
+           neigh.push_back({r,c});
+       }
+   }
+     
+    return neigh;
+}
+void bfs(state node){
+   vis[node.first][node.second]=1;
+   dist[node.first][node.second]=0;
+   par.assign(n,vector<state>(m,{-1,-1}));
+   queue<state>q;
+   q.push(node);
+   while(!q.empty()){
+       auto it=q.front();
+       q.pop();
+       for(auto x:neighbour(it)){
+           if(vis[x.first][x.second]==0){
+           vis[x.first][x.second]=1;
+           dist[x.first][x.second]=dist[it.first][it.second]+1;
+           q.push(x);
+           par[x.first][x.second]=it;
+       }
+       }
+   }
+   
+}
+int main() {
+	// your code goes here
+	cin>>n>>m;
+	g.resize(n);
+	state st,ed;
+	for(int i=0;i<n;i++){
+	    g[i].resize(m);
+	    for(int j=0;j<m;j++){
+	        cin>>g[i][j];
+	        if(g[i][j]=='S'){
+	            st={i,j};
+	        }if(g[i][j]=='F')ed={i,j};
+	    }
+	}
+	vis.resize(n,vector<int>(m,0));
+	dist.resize(n,vector<int>(m,1e9));
+	bfs({st.first,st.second});
+	if(vis[ed.first][ed.second]==1){
+	    cout<<dist[ed.first][ed.second]<<" ";
+	    state cur=ed;
+	    vector<state>path;
+	    while(cur!=state{-1,-1}){
+	         path.push_back(cur);
+	        cur=par[cur.first][cur.second];
+	       
+	    }
+	    reverse(path.begin(),path.end());
+	    for(auto x:path){
+	        cout<<"("<<x.first<<" ,"<<x.second<<" )";
+	    }
+	}else{
+	    cout<<"NOT HAVE";
+	}
+	
+	
+}
