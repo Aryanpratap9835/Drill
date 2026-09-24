@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int>depth;
+    void bfs(int i,vector<vector<int>>&child,vector<int>&depth){
+        queue<int>q;
+        q.push(i);
+        while(!q.empty()){
+            int x=q.front();
+            q.pop();
+            for(int y:child[x]){
+            depth[y]=depth[x]+1;
+                q.push(y);
+            
+        }
+    }
+    }
+    long long weightedSum(vector<int>& parent, vector<int>& nums) {
+     vector<vector<int>>child(parent.size()+1);
+        int n=nums.size();
+        for(int i=1;i<n;i++){
+            child[parent[i]].push_back(i);
+        }
+        depth.resize(n+1,0);
+        depth[0]=1;
+            bfs(0,child,depth);
+        int maxi=*max_element(depth.begin(),depth.end());
+        long long cole=0;
+        for(int i=0;i<n;i++){
+            cole+=(1LL*nums[i]*(maxi-depth[i]+1));
+        }
+        return cole;
+    }
+};
