@@ -1,0 +1,51 @@
+class Solution {
+public:
+int n,m;
+bool Exist(vector<vector<int>>&prefix,int i,int j,int k){
+    int  sum=prefix[i+k][j+k]-prefix[i][j+k]-prefix[i+k][j]+prefix[i][j];
+    return sum==k*k;
+}
+  bool isValid(int k,vector<vector<int>>prefix){
+    int tr=-1;
+    int rc=-1;
+    int lc=m;
+    int found=0;
+    for(int i=0;i<=n-k;i++){
+        for(int j=0;j<=m-k;j++){
+            if(!Exist(prefix,i,j,k))continue;
+            if(tr!=-1&&tr+k<=i)return true;
+            if(lc!=m&&lc+k<=j)return true;
+            if(rc!=-1&&k+j<=rc)return true;
+            lc=min(lc,j);
+            rc=max(rc,j);
+             found=1;
+        }
+        if(found==1){
+            if(tr==-1)tr=i;
+        }
+
+    }return false;
+  }
+    int maxArea(vector<vector<int>>& mat) {
+        this->n=mat.size();
+        this->m=mat[0].size();
+        vector<vector<int>>prefix(n+1,vector<int>(m+1,0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                prefix[i+1][j+1]=prefix[i+1][j]+prefix[i][j+1]-prefix[i][j]+mat[i][j];
+            }
+        }
+        int l=1;int h=min(n,m);
+        int ans=0;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(isValid(mid,prefix)){
+                 ans=max(ans,mid);
+                 l=mid+1;
+            }else{
+                h=mid-1;
+            }
+        }
+        return ans*ans;
+    }
+};
