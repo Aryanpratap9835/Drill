@@ -1,0 +1,55 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>>vis;
+vector<vector<int>>dis;
+bool valid(int r,int c,int n){
+    return (r>=1&&c>=1&&c<=n&&r<=n&&vis[r][c]==0);
+}
+int KnightWalk(int n, int Sx, int Sy, int Fx, int Fy)
+{
+    vis.resize(n+1,vector<int>(n+1));
+    dis.resize(n+1,vector<int>(n+1,-1));
+    queue<pair<int,int>>q;
+    q.push({Sx,Sy});
+    vis[Sx][Sy]=1;
+    dis[Sx][Sy]=0;
+    while(!q.empty()){
+        pair<int,int>ps=q.front();
+        q.pop();
+        int dx[8]={-1,1,2,2,1,-1,-2,-2};
+        int dy[8]={2,2,1,-1,-2,-2,-1,1};
+        for(int i=0;i<8;i++){
+            int r=dx[i]+ps.first;
+            int c=dy[i]+ps.second;
+          
+            if(valid(r,c,n)){
+                vis[r][c]=1;
+                dis[r][c]=dis[ps.first][ps.second]+1;
+                q.push({r,c});
+            }
+        }
+    }return dis[Fx][Fy];
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(0);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int test_case;
+	cin >> test_case;
+
+	while (test_case--)
+	{
+		int N, Sx, Sy, Fx, Fy;
+		cin >> N >> Sx >> Sy >> Fx >> Fy;
+
+		cout << KnightWalk(N, Sx, Sy, Fx, Fy) << "\n";
+        vis.clear();
+        dis.clear();
+	}
+}
