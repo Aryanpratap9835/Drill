@@ -1,0 +1,19 @@
+class Solution {
+public:
+    long long maxPairStrength(vector<int>& nums) {
+        vector<long long>gcd;
+        vector<long long>nas;
+     
+        for(int i=0;i+1<nums.size();i++){
+            for(int j=i+1;j<nums.size();j++){
+                gcd.push_back(__gcd(nums[i],nums[j]));
+                nas.push_back(nums[i]*1LL*nums[j]*1LL);
+            }
+        }   vector<long long>cole(nas.size());
+        for(int i=0;i<nas.size();i++){
+            cole[i]=nas[i]/(1LL*gcd[i]*gcd[i]);
+        }
+        long long maxi=*max_element(cole.begin(),cole.end());
+        return maxi;
+    }
+};
