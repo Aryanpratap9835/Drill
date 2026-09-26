@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool canTransform(vector<int>& source, vector<int>& target) {
+        int n=source.size();
+        long long ans=0;
+        for(int x:source)ans+=x*1LL;
+        for(int x:target)ans-=x*1LL;
+        if(ans==0)return true;
+        return false;
+    }
+};
