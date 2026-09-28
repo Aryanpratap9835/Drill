@@ -1,0 +1,37 @@
+class Solution {
+public:
+   bool Twosum(vector<int>&nums,int l,int r){
+    vector<int>freq(501,0);
+    for(int i=l;i<=r;i++){
+        freq[nums[i]]++;
+    }
+    for(int i=1;i<=500;i++){
+        if(freq[i]<=0)continue;
+        freq[i]--;
+        for(int j=1;j<=500;j++){
+            if(freq[j]<=0)continue;
+            freq[j]--;
+            int val=i+j;
+            if(val<=500&&freq[val]>0)return true;
+            freq[j]++;
+        }
+        freq[i]++;
+    }
+    return false;
+   }
+    int maxSubarray(vector<int>&nums) {
+        int l=0;int r=2;
+        int ans=0;
+        int n=nums.size();
+        ans=min(2,n);
+        while(r<nums.size()){
+        if(Twosum(nums,l,r)){
+            l++;
+            r++;
+        }else{
+            ans=max(ans,r-l+1);
+            r++;
+        }
+        }return ans;
+    }
+};
