@@ -1,0 +1,42 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<int>>g;
+vector<int>parent;
+vector<int>vis;
+bool dfs(int node,int p){
+    parent[node]=p;
+    vis[node]=1;
+    for(int x:g[node]){
+        if(!vis[x]){
+         if(dfs(x,node))return true;
+      
+        }else if(x!=parent[node])return true;
+    }return false;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n,m;
+    cin>>n>>m;
+    g.resize(n+1,vector<int>());
+    parent.assign(n+1,-1);
+    vis.assign(n+1,0);
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+        if(dfs(i,-1)==true){
+            cout<<"YES\n";
+            return 0;
+        }
+        }
+    }
+    cout<<"NO\n";
+
+
+}
