@@ -1,0 +1,45 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<int>>g;
+int main(){
+    ios::sync_with_stdio;
+    cin.tie(nullptr);
+    int t;
+    cin>>t;
+    while(t--){
+        int n,m;
+        cin>>n>>m;
+        g.assign(n+1,{});
+        for(int i=0;i<m;i++){
+            int a,b;
+            cin>>a>>b;
+            g[a].push_back(b);
+        }
+        vector<int>indegree(n+1,0);
+       for(int i=1;i<=n;i++){ 
+        for(int v:g[i]){
+            indegree[v]++;
+        }
+    }
+    queue<int>q;
+    for(int i=1;i<=n;i++){
+    if(indegree[i]==0)q.push(i);
+    }
+    vector<int>topo;
+    while(!q.empty()){
+        int curr=q.front();
+        q.pop();
+         topo.push_back(curr);
+        for(int x:g[curr]){
+           
+            indegree[x]--;
+            if(indegree[x]==0){
+                q.push(x);
+            }
+        }
+    }
+    if(topo.size()==n)cout<<"No\n";
+    else cout<<"Yes\n";
+}
+}
