@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 int main() {
-	// your code goes here
+	
 	int n,m,p;
 	cin>>n>>m>>p;
 	vector<int>a(n);
