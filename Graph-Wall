@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n,m;
+vector<string>grid;
+using state=pair<int,int>;
+vector<vector<int>>dist,vis;
+int dx[4]={-1,0,0,1};
+int dy[4]={0,1,-1,0};
+bool inside(int x,int y){
+    if(x>=0&&x<n&&y>=0&&y<m)return 1;
+    return 0;
+}
+vector<pair<state,int>>neighbour(state cur){
+    vector<pair<state,int>>neigh;
+    for(int dir=0;dir<4;dir++){
+        int nx=cur.first+dx[dir];
+        int ny=cur.second+dy[dir];
+        if(inside(nx,ny)){
+            int w=0;
+            if(grid[nx][ny]=='#'){
+                w=1;
+            }
+            neigh.push_back({{nx,ny},w});
+        }
+    }
+    return neigh;
+}
+void BFS01(state st){
+    dist=vector<vector<int>>(n,vector<int>(m,1e9));
+    vis=vector<vector<int>>(n,vector<int>(m,0));
+    deque<state>dq;
+    dist[st.first][st.second]=0;
+    dq.push_front(st);
+    while(!dq.empty()){
+        state cur=dq.front();
+        dq.pop_front();
+        if(vis[cur.first][cur.second])continue;
+        vis[cur.first][cur.second]=1;
+        for(auto [v,w]:neighbour(cur)){
+            if(!vis[v.first][v.second]&&dist[v.first][v.second]>dist[cur.first][cur.second]+w){
+                dist[v.first][v.second]=dist[cur.first][cur.second]+w;
+                if(w==0){
+                    dq.push_front(v);
+                }else{
+                    dq.push_back(v);
+                }
+            }
+        }
+    }
+}
+int main() {
+	// your code goes here
+	cin>>n>>m;
+	grid.resize(n);
+	state st,en;
+	for(int i=0;i<n;i++){
+	    cin>>grid[i];
+	    for(int j=0;j<m;j++){
+	        if(grid[i][j]=='S')st={i,j};
+	        if(grid[i][j]=='E')en={i,j};
+	    }
+	}
+	BFS01(st);
+	cout<<dist[en.first][en.second]<<"\n";
+}
