@@ -1,0 +1,40 @@
+// Write your code here
+#include <bits/stdc++.h>
+using namespace std;
+int parent[200001];
+int depth[2000001];
+vector<vector<int>>g;
+int diameter;
+int  dfs(int node,int p,int d){
+    depth[node]=d;
+    parent[node]=p;
+    int best1=0;int best2=0;
+    for(auto c:g[node]){
+        if(c!=parent[node]){
+        int childDepth=dfs(c,node,d+1);
+        childDepth++;
+       if(childDepth>best1){
+        best2=best1;
+        best1=childDepth;
+       }else if(childDepth>best2){
+        best2=childDepth;
+       }
+        }
+         diameter=max(diameter,best1+best2);
+    }
+      
+        return best1;
+    }
+    int main(){
+        int N;
+        cin>>N;
+        g.resize(N+1);
+        for(int i=0;i<N-1;i++){
+            int a,b;
+            cin>>a>>b;
+            g[a].push_back(b);
+            g[b].push_back(a);
+        }
+         dfs(1,0,0);
+        cout<<diameter<<" ";
+}
