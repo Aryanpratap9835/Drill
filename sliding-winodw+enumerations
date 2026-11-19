@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        int papaji=0;
+        int n=s.size();
+        for(int target=1;target<=26;target++){
+            int freq[26]={0};
+            int unique=0;int cntAt=0;int head=-1;int tail=0;
+            while(tail<n){
+                while(head+1<n){
+                    if(freq[s[head+1]-'a']==0&&unique==target)break;
+                    if(freq[s[head+1]-'a']==0)unique++;
+                    freq[s[head+1]-'a']++;
+                    if(freq[s[head+1]-'a']==k)cntAt++;
+                    head++;
+                }
+                if(unique==target&&cntAt==target){
+                    papaji=max(papaji,head-tail+1);
+                }
+                if(head>=tail){
+                    freq[s[tail]-'a']--;
+                    if(freq[s[tail]-'a']==0)unique--;
+                    if(freq[s[tail]-'a']==k-1)cntAt--;
+                    tail++;
+                }else{
+                    memset(freq,0,sizeof(freq));
+                    unique=0;cntAt=0;
+                    tail++;
+                    head=tail-1;
+                }
+            }
+        }return papaji;
+    }
+};
